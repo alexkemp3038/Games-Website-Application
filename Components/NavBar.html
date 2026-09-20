@@ -1,0 +1,42 @@
+<nav>
+	<a id ="mathsLink"href="../Maths_Game/maths-racing-game.html">MATHS</a>
+	<a id ="logoLink" href="../Home_Page/home-page.html"><img src="../logo.png" alt="logo"></a>
+	<a id ="englishLink" href="../Wordle_Game/Wordle_Game_Html.html">ENGLISH</a>
+	
+	 <div class="spacer"></div>
+
+
+  <!-- GUEST POP-UP -->
+  <div class="dropdown-container">
+	<div class="guest-dropdown" id="guest-dropdown">
+		<button class="guest-dropdown-button">
+		  <img src="../account-logo.png" alt="Guest Icon">
+		</button>
+
+    <div class="guest-dropdown-content">
+		<strong>Welcome,Guest</strong>
+		<br><br>
+      <button id="loginBtn" class="delete-account">Log In</button>
+	  <button id="signupBtn" class="nav-action-btn">Sign Up</button>
+    </div>
+</div>
+
+
+  <!-- USER POP-UP -->
+  <div class="user-dropdown" id="user-dropdown" style="display: none;">
+    <button class="user-dropdown-button">
+      <img src="../account-logo.png" alt="User Icon">
+    </button>
+
+    <div class="user-dropdown-content">
+      Username: <span id="user-username">GUEST</span><br>
+      Name: <span id="user-fullname">GUEST</span><br>
+      Email: <span id="user-email">None</span><br>
+      Date Joined: <span id="user-date">9/9/99</span><br>
+      <button id="adminBtn" class="admin-btn" style="display:none;">Admin Panel</button>
+	  <button class="delete-account" id="logout">Logout</button>
+	  
+    </div>
+  </div>
+  </div>
+</nav>

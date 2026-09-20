@@ -1,0 +1,188 @@
+/* ===== NAVIGATION BAR ===== */
+nav {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  height: 15vh;
+  padding: 0 2vw; 
+  background-color: #d7e6eb;
+  position: relative; 
+}
+/*mindspark logo*/
+#logoLink {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); 
+  z-index: 1; 
+}
+
+/* Ensure the other links have some margin so they don't overlap the logo */
+#mathsLink {
+    position: absolute;
+    left: 20vw; /* Adjust this value to set the center-left point visually */
+    z-index: 1;
+}
+
+#englishLink {
+    position: absolute;
+    right: 20vw; /* Adjust this value to set the center-right point visually */
+    z-index: 1;
+}
+
+.spacer {
+    flex-grow: 1; /* Pushes the dropdown to the far right */
+}
+
+.dropdown-container {
+    position: absolute;
+    right: 2vw; /* Aligns with your current nav padding */
+    top: 50%; /* Vertically centers the dropdown container */
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+
+
+
+
+/* Navigation links (General styles - target all 'a' in nav) */
+nav a {
+  color: #0d435b;
+  font-weight: bolder;
+  font-size: 2vw;
+  text-decoration: none;
+}
+
+
+
+
+/* Hover feedback for links */
+nav a:hover {
+  transform: scale(1.1);
+  color: #f65d58;
+}
+
+/* Logo image */
+nav a > img {
+  max-width: 23vh;
+  height: 12vh;
+  transition: transform 0.3s ease;
+}
+
+nav a > img:hover {
+  transform: scale(1.1);
+}
+
+
+	
+  
+
+
+
+
+/* ===== DROPDOWN MENUS ===== */
+
+/* Guest / User dropdown wrapper */
+.guest-dropdown,
+.user-dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+/* Account icon button */
+.guest-dropdown-button,
+.user-dropdown-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.guest-dropdown-button > img,
+.user-dropdown-button > img {
+  max-width: 6vh;
+  height: 6vh;
+  transition: transform 0.3s ease;
+}
+
+.guest-dropdown-button > img:hover,
+.user-dropdown-button > img:hover {
+  transform: scale(1.1);
+}
+
+/* Dropdown content */
+.guest-dropdown-content,
+.user-dropdown-content {
+  font-size: 1.1rem;
+  background-color: #dbe7eb;
+  color: #0d435b;
+  width: 20vw;
+  min-width: 200px;
+  display: none;
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 6px 6px 6px #0d435b;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  padding: 15%;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Show dropdown on hover */
+.guest-dropdown:hover .guest-dropdown-content,
+.user-dropdown:hover .user-dropdown-content {
+  display: block;
+}
+
+/* Delete / Logout button */
+.delete-account {
+  background-color: #f65d58;
+  color: white;
+  border: 1px solid black;
+  border-radius: 10%;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.delete-account:hover {
+  background-color: #e44e49;
+  transform: scale(1.1);
+}
+
+.nav-action-btn {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  background-color: #0d435b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav-action-btn:hover {
+  background-color: #f65d58;
+  transform: scale(1.05);
+}
+.admin-btn {
+  background-color: #0d435b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1vh 2vw;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.admin-btn:hover {
+  background-color: #f65d58;
+  transform: scale(1.05);
+}
+
