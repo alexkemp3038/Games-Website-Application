@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Maths Racing Game</title>
+    <link rel="icon" type="image/x-icon" href="/logo.png">
+    <link rel="stylesheet" href="MathsGamePage2.css">
+	<link rel="stylesheet" href="/Components/NavBar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	
+    <script src="/Components/NavBar.js"></script>
+	
+
+	</head>
+
+<body>
+
+    <main>
+        <h1>Maths Racing Game</h1>
+		<section id="game-frame">
+
+  <!-- Menu overlay -->
+  <div id="menu-overlay">
+    <div class="menu-box">
+      <h2>🏁 Maths Racing Game 🧮</h2>
+      <h3>Answer as many questions as you can within the time limit!</h3>
+
+      <label for="level">Choose Difficulty:</label>
+      <select id="level">
+        <option value="simple">Simple (1–9)</option>
+        <option value="medium">Medium (10–99)</option>
+        <option value="hard">Hard (100–999)</option>
+      </select>
+
+      <button id="play-button">START GAME</button>
+    </div>
+  </div>
+
+  <!-- Actual game area -->
+  <div class="app-container">
+    <p id="timer">Time: 180s</p>
+    <p id="score">Score: 0</p>
+
+    <h2 id="problem">Press Start to begin!</h2>
+
+    <div>
+      <button class="option" id="option1"></button>
+      <button class="option" id="option2"></button>
+      <button class="option" id="option3"></button>
+    </div>
+
+    <p id="feedback"></p>
+
+    <div id="game-over" class="hidden">
+      <h2>Time’s up!</h2>
+      <p id="finalScore">Final Score: 0</p>
+      <button id="play-again">Play again</button>
+    </div>
+  </div>
+
+</section>
+
+		
+
+        <section id="leaderboard">
+            <div class="l-heading">GLOBAL LEADERBOARD</div>
+            <div class="current-and-best">Your best score: <span id="bestScoreValue">None</span></div>
+
+
+            <table>
+                <tr>
+                    <th>RANK</th>
+                    <th>USER</th>
+                    <th>BEST SCORE</th>
+                </tr>
+                <tr class="rank-1">
+                    <td class="rank">1</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-2">
+                    <td class="rank">2</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-3">
+                    <td class="rank">3</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-4">
+                    <td class="rank">4</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-5">
+                    <td class="rank">5</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-6">
+                    <td class="rank">6</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-7">
+                    <td class="rank">7</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-8">
+                    <td class="rank">8</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-9">
+                    <td class="rank">9</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-10">
+                    <td class="rank">10</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+<footer>
+    <p>&copy; 2024 MindSpark Kids. All rights reserved.</p>
+</footer>	
+<script>
+    window.isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    window.userId = localStorage.getItem("userId");
+    console.log("Maths: isLoggedIn =", window.isLoggedIn, "userId =", window.userId);
+</script>
+
+<script defer src="maths-racing-game.js"></script>
+</body>
+
+</html>
