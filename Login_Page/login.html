@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="flip-container" id="flip-card">
+        <div class="flipper">
+            <div class="face front">
+                <h2>Log In</h2>
+                <form>
+                    <div class="input-group">
+                        <input type="text" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Password" required>
+                    </div>
+						<div class="input-group">
+							<input type="password" id="adminCode" placeholder="Admin Code (only for admins)">
+						</div>
+
+                    <button type="submit" class="button">Log In</button>
+                    <p>Don't have an account? <a href="#" id="to-signup">Sign Up</a></p>
+                </form>
+            </div>
+            
+            <div class="face back">
+                <h2>Sign Up</h2>
+                <form>
+                    <div class="input-group-row"> 
+                        <div class="input-group half">
+                            <input type="text" placeholder="First Name" required>
+                        </div>
+                        <div class="input-group half">
+                            <input type="text" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Username" required minlength="3" pattern="[a-zA-Z0-9_]+" title="Username can only contain letters, numbers, and underscores.">
+                    </div>
+                    <div class="input-group">
+                        <input type="email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" placeholder="Password" required minlength="8" 
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+                    </div>
+                    <button type="submit" class="button">Sign Up</button>
+                    <p>Already have an account? <a href="#" id="to-login">Log In</a></p>
+                </form>
+            </div>
+    </div>
+    
+    <script>
+        // JavaScript to toggle the flipping animation
+        const card = document.getElementById('flip-card');
+        const toSignupLink = document.getElementById('to-signup');
+        const toLoginLink = document.getElementById('to-login');
+
+        toSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            card.classList.add('flipped');
+        });
+
+        toLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            card.classList.remove('flipped');
+        });
+		
+		 //  LOGIN FORM HANDLING
+    const loginForm = document.querySelector('.front form');
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const username = loginForm.querySelector('input[placeholder="Username"]').value;
+        const password = loginForm.querySelector('input[placeholder="Password"]').value;
+		const adminCode = document.getElementById("adminCode").value;
+		
+        try {
+            const response = await fetch('http://localhost:3000/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserName: username,
+                    Password: password,
+					AdminCode: adminCode
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Login successful!');
+                console.log('User:', data.user);
+				
+				localStorage.setItem("userId", data.user.id);
+				window.isLoggedIn = true;
+				window.userId = data.user.id;
+				
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('userName', data.user.UserName);
+				localStorage.setItem('firstName', data.user.FirstName);
+				localStorage.setItem('secondName' ,data.user.SecondName);
+				localStorage.setItem('email', data.user.Email);
+				localStorage.setItem('Role', data.user.Role);
+				const formattedDate = new Date(data.user.CreatedAt).toLocaleDateString("en-GB");
+				localStorage.setItem('createdAt', formattedDate);
+                
+				// redirect to homepage or game or admin page
+				if (data.user.Role === 'Admin'){
+				window.location.href = '/Admin_Page/admin-page.html';
+				}
+				else {
+				window.location.href = '/Home_Page/home-page.html';
+				}
+				
+            } else {
+                alert(` ${data.error || 'Login failed'}`);
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            alert('Error connecting to server.');
+        }
+    });
+
+    //  SIGN UP FORM HANDLING
+    const signupForm = document.querySelector('.back form');
+    signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const firstName = signupForm.querySelector('input[placeholder="First Name"]').value;
+        const lastName = signupForm.querySelector('input[placeholder="Last Name"]').value;
+        const username = signupForm.querySelector('input[placeholder="Username"]').value;
+        const email = signupForm.querySelector('input[placeholder="Email"]').value;
+        const password = signupForm.querySelector('input[placeholder="Password"]').value;
+
+        try {
+            const response = await fetch('http://localhost:3000/api/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    FirstName: firstName,
+                    SecondName: lastName,
+                    Email: email,
+                    UserName: username,
+                    Password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Account created successfully!');
+                // flip back to login page
+                card.classList.remove('flipped');
+            } else {
+                alert(`${data.error || 'Signup failed'}`);
+            }
+        } catch (err) {
+            console.error('Signup error:', err);
+            alert('Error connecting to server.');
+        }
+    });
+    </script>
+</body>
+</html>
