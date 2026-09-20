@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Guess the Word</title>
+    <link rel="icon" type="image/x-icon" href="/logo.png">
+    <link rel="stylesheet" href="Wordle_Game_Css.css">
+	<link rel="stylesheet" href="/Components/NavBar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+	
+	<script defer src="/Components/NavBar.js"></script>
+
+</head>
+
+
+<body>
+    
+
+    <main>
+        <h1>Guess the Word Game</h1>
+
+       <div id="menu-overlay">
+  <div class="menu-box">
+    <h2> Guess The Word Challenge! </h2>
+    <h3>Attempt to guess a random word in 6 tries based on the theme and difficulty chosen.</h3>
+    <div class="menu-options">
+      <!-- Theme Dropdown -->
+      <div>
+        <label for="theme">Choose a Theme:</label>
+        <select id="theme">
+          <option value="Normal">🧠 Normal</option>
+          <option value="Animals">🐾 Animals</option>
+          <option value="Food">🍫 Food</option>
+          <option value="Sports">🏅 Sports</option>
+        </select>
+      </div>
+
+      <!-- Difficulty Dropdown -->
+      <div>
+        <label for="difficulty">Choose a Difficulty:</label>
+        <select id="difficulty">
+          <option value="easy">Easy (3 Letters)</option>
+          <option value="medium">Medium (4 Letters)</option>
+          <option value="hard">Hard (5 Letters)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Play Button -->
+    <button id="play-button">PLAY</button>
+  </div>
+</div>
+
+<section id="game-frame"></section>
+
+
+        <section id="leaderboard">
+            <div class="l-heading">GLOBAL LEADERBOARD</div>
+            <div class="current-and-best">Your current streak: <span id="currentStreakValue">0</span></div>
+			<div class="current-and-best">Your top streak: <span id="topStreakValue">0</span></div>
+
+
+            <table>
+                <tr>
+                    <th>RANK</th>
+                    <th>USER</th>
+                    <th>TOP STREAK</th>
+                </tr>
+                <tr class="rank-1">
+                    <td class="rank">1</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-2">
+                    <td class="rank">2</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-3">
+                    <td class="rank">3</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-4">
+                    <td class="rank">4</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-5">
+                    <td class="rank">5</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-6">
+                    <td class="rank">6</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-7">
+                    <td class="rank">7</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-8">
+                    <td class="rank">8</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-9">
+                    <td class="rank">9</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+                <tr class="rank-10">
+                    <td class="rank">10</td>
+                    <td class="user">None</td>
+                    <td class="score">None</td>
+                </tr>
+            </table>
+        </section>
+    </main>
+</body>
+
+<footer>
+    <p>&copy; 2024 MindSpark Kids. All rights reserved.</p>
+</footer>
+
+
+<script>
+    window.isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    window.userId = localStorage.getItem("userId");
+</script>
+
+<script src="Wordle_Game.js" ></script>
+
+</html>
