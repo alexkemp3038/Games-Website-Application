@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Manage Accounts</title>
+    <link rel="stylesheet" href="../Home_Page/home-page.css"> <!-- uses same CSS -->
+    <link rel="icon" type="image/x-icon" href="logo.png" />
+	 <link rel="stylesheet" href="../Components/NavBar.css"/>
+  
+  <script defer src="../Components/NavBar.js"></script>
+</head>
+
+<body>
+
+
+<!-- Protect admin page -->
+<script>
+    const role = localStorage.getItem("Role");
+    if (role !== "Admin") {
+        alert("Access denied — Admins only.");
+        window.location.href = "/Home_Page/home-page.html";
+    }
+</script>
+
+<div class="categories">
+    <section id="about-us">
+        <h1>Manage User Accounts</h1>
+        <p>View and manage all registered users below.</p>
+    </section>
+
+    <section style="height:auto; padding:2vw;">
+        <table id="userTable" style="width:100%; border-collapse:collapse; text-align:center; background:white; color:black; border-radius:10px;">
+            <thead style="background-color:#1e3a8a; color:white;">
+                <tr>
+                    <th>User ID</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Online</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Populated by JS -->
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<script>
+// Load users from server
+fetch("http://localhost:3000/api/users")
+    .then(res => res.json())
+    .then(users => renderUsers(users))
+    .catch(err => console.error("Fetch users error:", err));
+
+function renderUsers(users) {
+    const tableBody = document.getElementById("userTableBody");
+    tableBody.innerHTML = "";
+
+    users.forEach(user => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${user.UserId}</td>
+            <td>${user.UserName}</td>
+            <td>${user.FirstName} ${user.SecondName}</td>
+            <td>${user.Email}</td>
+            <td>${user.UserRole}</td>
+            <td>${user.OnlineStatus}</td>
+            <td>
+                <button class="delete-account" onclick="deleteUser(${user.UserId})">Delete</button>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+// delete button
+function deleteUser(userId) {
+    if (!confirm("Are you sure you want to delete this user?")) return;
+
+    fetch(`http://localhost:3000/api/delete-user/${userId}`, {
+        method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(msg => {
+        alert(msg.message);
+        location.reload();
+    })
+    .catch(err => console.error(err));
+}
+
+// Logout
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "../Home_Page/home-page.html";
+});
+</script>
+
+</body>
+
+<footer>
+    <p>&copy; 2024 MindSpark Kids Admin. All rights reserved.</p>
+</footer>
+
+</html>

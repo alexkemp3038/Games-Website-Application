@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Manage Word Bank</title>
+    <link rel="stylesheet" href="../Home_Page/home-page.css">
+	 <link rel="stylesheet" href="../Components/NavBar.css"/>
+  
+  <script defer src="../Components/NavBar.js"></script>
+</head>
+
+<body>
+
+
+
+<script>
+if (localStorage.getItem("Role") !== "Admin") {
+    alert("Access denied — Admins only.");
+    window.location.href = "../Home_Page/home-page.html";
+}
+</script>
+
+<div class="categories">
+    <section id="about-us">
+        <h1>Manage Word Bank</h1>
+        <p>Add, filter, or delete Wordle game words.</p>
+    </section>
+
+    <!-- Filter & Add Word -->
+    <section style="height:auto; padding:2vw;">
+        <label>Topic:</label>
+        <select id="topicSelect">
+			<option value="normal">Normal</option>
+            <option value="animals">Animals</option>
+            <option value="food">Food</option>
+            <option value="sports">Sports</option>
+        </select>
+
+        <label>Difficulty:</label>
+        <select id="difficultySelect">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+
+        <button class="admin-btn" onclick="loadWords()">Load</button>
+
+        <h3>Add New Word</h3>
+        <input type="text" id="newWord" placeholder="Enter word">
+        <button class="admin-btn" onclick="addWord()">Add Word</button>
+    </section>
+
+    <!-- Word List -->
+    <section style="height:auto; padding:2vw;">
+        <table id="wordTable" style="width:100%; background:white; color:black; border-radius:10px;">
+            <thead style="background-color:#1e3a8a; color:white;">
+                <tr>
+                    <th>Word</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="wordTableBody"></tbody>
+        </table>
+    </section>
+</div>
+
+<script>
+// Load words based on filters
+function loadWords() {
+    const topic = document.getElementById("topicSelect").value;
+    const difficulty = document.getElementById("difficultySelect").value;
+
+    fetch(`http://localhost:3000/api/words?topic=${topic}&difficulty=${difficulty}`)
+        .then(res => res.json())
+        .then(words => renderWords(words))
+        .catch(err => console.error("Error loading words:", err));
+}
+
+function renderWords(words) {
+    const body = document.getElementById("wordTableBody");
+    body.innerHTML = "";
+
+    words.forEach(word => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${word}</td>
+            <td><button class="delete-account" onclick="deleteWord('${word}')">Delete</button></td>
+        `;
+        body.appendChild(row);
+    });
+}
+
+function addWord() {
+    const word = document.getElementById("newWord").value;
+    const topic = document.getElementById("topicSelect").value;
+    const difficulty = document.getElementById("difficultySelect").value;
+
+    if (!word) return alert("Enter a word first");
+	//add word
+    fetch("http://localhost:3000/api/add-word", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ word, topic, difficulty })
+    })
+    .then(res => res.json())
+    .then(msg => {
+        alert(msg.message);
+        loadWords();
+    });
+}
+//delete word
+function deleteWord(word) {
+    const topic = document.getElementById("topicSelect").value;
+    const difficulty = document.getElementById("difficultySelect").value;
+
+    fetch(`http://localhost:3000/api/delete-word`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ word, topic, difficulty })
+    })
+    .then(res => res.json())
+    .then(msg => {
+        alert(msg.message);
+        loadWords();
+    });
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.clear();
+    window.location.href = "../Home_Page/home-page.html";
+});
+</script>
+
+</body>
+</html>

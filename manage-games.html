@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Manage Games</title>
+  <link rel="stylesheet" href="../Home_Page/home-page.css">
+  <link rel="stylesheet" href="/Components/NavBar.css">
+  
+  <script defer src="../Components/NavBar.js"></script>
+</head>
+<!--sections--!>
+<body>
+<div class="categories">
+  <section id="about-us">
+    <h1>Manage Games</h1>
+    <p>Modify game settings and content.</p>
+  </section>
+
+  <section style="height:auto; padding:2vw;">
+  <h2>Wordle</h2>
+  <button class="admin-btn" onclick="window.location.href='manage-words.html'">Edit Word Bank</button>
+  <button class="admin-btn" onclick="loadWordleLeaderboard(this)">Show Leaderboard</button>
+
+  <table id="wordleLeaderboard" style="width:100%; margin-top:1rem; display:none; background:white; color:black; border-radius:10px;">
+    <thead style="background:#b84a62; color:white;">
+      <tr>
+        <th>Rank</th>
+        <th>User</th>
+        <th>Streak</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<section style="height:auto; padding:2vw; background-color:#1e3a8a;">
+  <h2 style="color:white;">Maths Game</h2>
+  <button class="admin-btn" onclick="window.location.href='manage-maths.html'">Edit Maths Settings</button>
+  <button class="admin-btn" onclick="loadMathLeaderboard(this)">Show Leaderboard</button>
+
+  <table id="mathLeaderboard" style="width:100%; margin-top:1rem; display:none; background:white; color:black; border-radius:10px;">
+    <thead style="background:#1e3a8a; color:white;">
+      <tr>
+        <th>Rank</th>
+        <th>User</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<script>
+if (localStorage.getItem("Role") !== "Admin") {
+  alert("Access denied — Admins only");
+  window.location.href = "../Home_Page/home-page.html";
+}
+
+function loadWordleLeaderboard(button) {
+  const table = document.getElementById("wordleLeaderboard");
+
+  if (table.style.display === "table") {
+    table.style.display = "none";
+    button.textContent = "Show Leaderboard";
+    return;
+  }
+
+  // Show data
+  fetch("http://localhost:3000/api/leaderboard/wordle")
+    .then(res => res.json())
+    .then(data => {
+      const body = table.querySelector("tbody");
+      body.innerHTML = "";
+      table.style.display = "table";
+      button.textContent = "Hide Leaderboard";
+
+      data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.UserName}</td>
+          <td>${row.TopStreak}</td>
+        `;
+        body.appendChild(tr);
+      });
+    })
+    .catch(err => console.error("Wordle leaderboard error:", err));
+}
+
+function loadMathLeaderboard(button) {
+  const table = document.getElementById("mathLeaderboard");
+
+  if (table.style.display === "table") {
+    table.style.display = "none";
+    button.textContent = "Show Leaderboard";
+    return;
+  }
+
+  fetch("http://localhost:3000/api/leaderboard/maths")
+    .then(res => res.json())
+    .then(data => {
+      const body = table.querySelector("tbody");
+      body.innerHTML = "";
+      table.style.display = "table";
+      button.textContent = "Hide Leaderboard";
+
+      data.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.UserName}</td>
+          <td>${row.TopScore}</td>
+        `;
+        body.appendChild(tr);
+      });
+    })
+    .catch(err => console.error("Math leaderboard error:", err));
+}
+</script>
+
+
+
+
+
+
+
+</body>
+</html>

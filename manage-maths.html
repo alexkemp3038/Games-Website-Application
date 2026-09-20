@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Manage Maths Game</title>
+  <link rel="stylesheet" href="../Home_Page/home-page.css">
+   <link rel="stylesheet" href="../Components/NavBar.css"/>
+  
+  <script defer src="../Components/NavBar.js"></script>
+</head>
+
+<body>
+
+<div class="categories">
+  <section id="about-us">
+    <h1>Manage Maths Game Settings</h1>
+    <p>Adjust difficulty rules and timer values.</p>
+  </section>
+
+  <section style="height:auto; padding:2vw; background:white; color:black;">
+    <h2>Maths Game Settings</h2>
+
+    <label>Time Limit (seconds)</label>
+    <input type="number" id="timeLimit" style="width:100%; margin-bottom:1rem;">
+
+    <label>Simple Level Points</label>
+    <input type="number" id="simplePoints" style="width:100%; margin-bottom:1rem;">
+
+    <label>Simple Level Penalty</label>
+    <input type="number" id="simplePenalty" style="width:100%; margin-bottom:1rem;">
+	
+	<label>Medium Points:</label>
+	<input type="number" id="MediumPoints">
+
+	<label>Medium Penalty:</label>
+	<input type="number" id="MediumPenalty">
+
+	<label>Hard Points:</label>
+	<input type="number" id="HardPoints">
+
+	<label>Hard Penalty:</label>
+	<input type="number" id="HardPenalty">
+
+
+    <button class="admin-btn" onclick="saveMathsSettings()">Save Changes</button>
+  </section>
+</div>
+
+<script>
+// Protect admin access
+if (localStorage.getItem("Role") !== "Admin") {
+  alert("Access denied — Admins only.");
+  window.location.href = "../Home_Page/home-page.html";
+}
+
+// Load current settings on page load
+fetch("http://localhost:3000/api/maths-settings")
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("timeLimit").value = data.TimeLimit;
+    document.getElementById("simplePoints").value = data.SimplePoints;
+    document.getElementById("simplePenalty").value = data.SimplePenalty;
+	document.getElementById("MediumPoints").value = data.MediumPoints;
+    document.getElementById("MediumPenalty").value = data.MediumPenalty;
+    document.getElementById("HardPoints").value = data.HardPoints;
+    document.getElementById("HardPenalty").value = data.HardPenalty;
+  })
+  .catch(err => console.error("Failed to load settings:", err));
+
+function saveMathsSettings() {
+  const settings = {
+    TimeLimit: document.getElementById("timeLimit").value,
+    SimplePoints: document.getElementById("simplePoints").value,
+    SimplePenalty: document.getElementById("simplePenalty").value,
+	MediumPoints: document.getElementById("MediumPoints").value,
+    MediumPenalty: document.getElementById("MediumPenalty").value,
+    HardPoints: document.getElementById("HardPoints").value,
+    HardPenalty: document.getElementById("HardPenalty").value
+  };
+//update settings
+  fetch("http://localhost:3000/api/maths-settings", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(settings)
+  })
+  .then(res => res.json())
+  .then(msg => {
+    alert("Settings updated successfully!");
+  })
+  .catch(err => console.error("Save error:", err));
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.clear();
+  window.location.href = "../Home_Page/home-page.html";
+});
+</script>
+
+</body>
+<footer>
+  <p>&copy; 2024 MindSpark Kids Admin. All rights reserved.</p>
+</footer>
+</html>
+

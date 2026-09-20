@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>
+    const role = localStorage.getItem("Role");
+    if (role !== "Admin") {
+        alert("Access denied. Admins only.");
+        window.location.href = "../Home_Page/home-page.html";
+    }
+</script>
+
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindSpark Kids | Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="logo.png" />
+  <link rel="stylesheet" href="../Home_Page/home-page.css" />
+  <link rel="stylesheet" href="../Components/NavBar.css"/>
+  
+  <script defer src="../Components/NavBar.js"></script>
+</head>
+
+<body>
+
+  <div class="categories">
+    <section id="about-us">
+      <h1>Admin Dashboard</h1>
+      <p>
+        Welcome back, <strong>Admin</strong>! From here, you can manage user accounts, games, and site content. Use the panels below to make updates across MindSpark Kids.
+      </p>
+    </section>
+
+    <!-- Manage Games Section -->
+    <section id="maths">
+     <div class="preview-text">
+        <h2>MANAGE GAMES</h2>
+        <p>
+           Update and edit educational games!
+        </p>
+        <button class="admin-btn" onclick="location.href='manage-games.html'">Go to Games Manager</button>
+      </div>
+    </section>
+
+    <!-- Manage Accounts Section -->
+    <section id="english">
+      <div class="preview-text">
+        <h2>MANAGE ACCOUNTS</h2>
+        <p>
+          View all registered users and remove inactive accounts. Keep the community safe and fun!
+        </p>
+        <button class="admin-btn" onclick="location.href='manage-accounts.html'">Go to Accounts</button>
+      </div>
+     </section>
+
+<footer>
+  <p>&copy; 2024 MindSpark Kids Admin. All rights reserved.</p>
+</footer>
+</html>
